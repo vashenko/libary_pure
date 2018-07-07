@@ -1,13 +1,12 @@
 window.onload = function () {
-    function checkOnVideo(url) {
-        var urlVideoRegExp = /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/;
-        return urlVideoRegExp.test(String(url).toLocaleLowerCase());
+    function checkOnVideo(file) {
+        return file.type === "video/mp4" || file.type === "video/webm" || file.type === "video/ogg";
     }
     function checkOnPicture(file) {
         return file.type === "image/png" || file.type === "image/jpg" || file.type === "image/gif";
     }
     function checkOnAudio(file) {
-        return file.type === "audio/mp3";
+        return file.type === "audio/mpeg" || file.type === "audio/ogg" || file.type === "audio/mp3";
     }
     function clearSearchResult() {
         var nodeSearchResult = document.getElementById("searchResult");
@@ -61,8 +60,12 @@ window.onload = function () {
         var embedVideo = document.createElement("div");
         embedVideo.className = "contentItem";
         embedVideo.innerHTML = `
-               <div  class="embedVideo">
-                    <iframe src="${this.url}" allowfullscreen></iframe>
+               <div class="embedVideo">
+                   <video controls>
+                       <source src="${this.url}" type="video/mp4">
+                       <source src="${this.url}" type="video/ogg">
+                       <source src="${this.url}" type="video/webm">
+                   </video>
                </div>
                <div class="props">
                    <h1>Name: ${this.name}</h1>
@@ -105,11 +108,13 @@ window.onload = function () {
         var embedVideo = document.createElement("div");
         embedVideo.className = "contentItem";
         embedVideo.innerHTML = `
-               <audio class="embedAudio" controls>
-                   <source src="${this.url}" type="audio/ogg">
-                   <source src="${this.url}" type="audio/mpeg">
-                   <source src="${this.url}" type="audio/mp3">
-               </audio>
+               <div>
+                   <audio class="embedAudio" controls>
+                       <source src="${this.url}" type="audio/ogg">
+                       <source src="${this.url}" type="audio/mpeg">
+                       <source src="${this.url}" type="audio/mp3">
+                   </audio> 
+               </div>
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
@@ -120,8 +125,8 @@ window.onload = function () {
         return embedVideo;
     };
 
-    function ContentList(contentArr) {
-        this.contentArr = contentArr;
+    function ContentList() {
+        this.fromLocalStorage();
     }
     ContentList.prototype = {
         addItem: function (content) {
@@ -231,14 +236,28 @@ window.onload = function () {
                 });
                 return document.getElementById("searchResult").insertBefore(outPut, null);
             }
+        },
+        fromLocalStorage: function () {
+            if (localStorage.getItem('contentList')){
+                this.contentArr = JSON.parse(localStorage.getItem('contentList'));
+            }else {
+                this.contentArr  = [];
+            }
+        },
+        toLocalStorage: function() {
+            if(this.contacts.length >= 0){
+                localStorage.setItem('listOfContacts', JSON.stringify(this.contacts));
+            }
         }
 
     };
     
-    var contentList = new ContentList([]);
-    // contentList.showItem();
+    var contentList = new ContentList();
+    contentList.showItem();
 
-    document.getElementById("createContent").addEventListener('click', function() {
+    document.getElementById("contentFormCreator").addEventListener('submit', function(event) {
+        event.preventDefault();
+
         var binaryFilesData = [];
         var contentName = document.getElementById("contentName").value;
         var contentDescription = document.getElementById("contentDescription").value;
@@ -251,20 +270,13 @@ window.onload = function () {
         if (checkOnPicture(inputAddedFile)) {
             contentList.addItem(new Picture(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
-
         if (checkOnAudio(inputAddedFile)) {
             console.log(inputAddedFile.type);
             contentList.addItem(new Audio(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
-        // if (checkOnVideo(contentUrl)) {
-        //     contentList.addItem(new Video(contentName, contentDescription, contentUrl, contentRating, contentTags));
-        // }
-        // if (checkOnPicture(contentUrl)) {
-        //     contentList.addItem(new Picture(contentName, contentDescription, contentUrl, contentRating, contentTags));
-        // }
-        // if (checkOnAudio(contentUrl)) {
-        //     contentList.addItem(new Audio(contentName, contentDescription, contentUrl, contentRating, contentTags));
-        // }
+        if (checkOnVideo(inputAddedFile)) {
+            contentList.addItem(new Video(contentName, contentDescription, contentRating, contentTags, contentUrl));
+        }
         contentList.showItem();
     });
 
@@ -320,14 +332,6 @@ window.onload = function () {
         }
     };
 
-    // function hello() {
-    //     console.log('sd');
-    // }
-    //
-    // var buttons = document.querySelectorAll(".props .voteUp");
-    // buttons.forEach(function(btn) {
-    //     btn.addEventListener('click', );
-    // })
 
 };
 

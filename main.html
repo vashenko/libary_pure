@@ -105,20 +105,20 @@
 
         <aside class="contentNavigation">
             <div class="addContent">
-                <form id="contentFormCreator">
+                <form id="contentFormCreator" enctype="multipart/form-data">
                     <input type="name" id="contentName" placeholder="Name">
                     <input type="text" id="contentDescription" placeholder="Description">
                     <input type="text" id="contentTags" placeholder="Tags">
                     <label for="contentFile" class="fileUpload">
-                        <i class="fa fa-cloud-upload"></i> Add your file
+                         Add your file
                     </label>
                     <input id="contentFile" type="file"/>
+                    <input type="submit" value="Create new content">
                 </form>
-                <input type="submit" id="createContent" value="Create new content">
             </div>
 
             <div class="searchOptions">
-                <div>
+                <div class="searchOptionsItem">
                     <h3 id="videoSearch">Find Video<i class="down"></i></h3>
                     <ul id="videoSearchOption">
                         <li><input type="text" placeholder="Video name" id="videoName"></li>
@@ -132,7 +132,7 @@
                         <button type="submit" id="findVideo">Find</button>
                     </ul>
                 </div>
-                <div>
+                <div class="searchOptionsItem">
                     <h3  id="pictureSearch">Find Picture<i class="down"></i></h3>
                     <ul id="pictureSearchOption">
                         <li><input type="text" placeholder="Video name" id="pictureName"></li>
@@ -146,7 +146,7 @@
                         <button type="submit" id="findPicture">Find</button>
                     </ul>
                 </div>
-                <div>
+                <div class="searchOptionsItem">
                     <h3 id="audioSearch">Find Audio<i class="down"></i></h3>
                     <ul id="audioSearchOption">
                         <li><input type="text" placeholder="Video name" id="audioName"></li>
