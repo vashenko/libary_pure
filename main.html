@@ -7,11 +7,15 @@
     <link href="style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script src="slider.js" defer></script>
     <script src="main.js"></script>
+    <script src="//unpkg.com/navigo@6"></script>
+    <script src="router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
 </head>
 <body>
-    <div class="wrapper">
+    <div class="wrapper" id="wrap">
 
         <header>
             <h1>You web libary</h1>
@@ -28,27 +32,27 @@
                 <ul>
                     <input type="checkbox" id="toggleMenu">
                     <li class="toggleMenu"><a><label for="toggleMenu">Menu</label></a></li>
-                    <li><a>About us<a/></li>
-                    <li><a href="contact_us/contact_us.html">Contact us</a></li>
+                    <li><a href="#!about_us">About us</a></li>
+                    <li><a href="#!contact_us">Contact us</a></li>
                     <li><a href="#modalSignIn">Sign In</a></li>
                     <li><a href="#modalSignUp">Sign Up</a></li>
                 </ul>
             </div>
         </nav>
-        <a href="#x" class="overlay" id="modalSignUp"></a>
+        <a href="" class="overlay" id="modalSignUp"></a>
         <div class="popup">
             <div class="signUpContainer">
                 <form action="" class="signUp" method="post">
                     <h3>Get Started Now</h3>
                     <h4>And get additional features.</h4>
                     <fieldset>
-                        <input placeholder="Your name" type="text" tabindex="1" required autofocus>
+                        <input placeholder="Your name" name="userName" type="text" tabindex="1" required autofocus>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="Your Email Address" type="email" tabindex="2" required>
+                        <input placeholder="Your Email Address" name="userPhone" type="email" tabindex="2" required>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="Your Password" type="password" tabindex="3" required>
+                        <input placeholder="Your Password" name="userPassword" type="password" tabindex="3" required>
                     </fieldset>
                     <fieldset>
                         <button name="submit" type="submit" id="signUp" data-submit="...Sending">Submit</button>
@@ -57,16 +61,16 @@
                 </form>
             </div>
         </div>
-        <a href="#x" class="overlay" id="modalSignIn"></a>
+        <a href="" class="overlay" id="modalSignIn"></a>
         <div class="popup">
             <div class="signUpContainer">
                 <form action="" class="signUp" method="post">
                     <h3>Welcome!</h3>
                     <fieldset>
-                        <input placeholder="Your Email Address" type="email" tabindex="1" required>
+                        <input placeholder="Your Email Address" name="userExistEmail" type="email" tabindex="1" required>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="Your Password" type="password" tabindex="2" required>
+                        <input placeholder="Your Password" name="userExistNumber" type="password" tabindex="2" required>
                     </fieldset>
                     <fieldset>
                         <button name="submit" type="submit" id="signIn" data-submit="...Sending">Enter</button>
@@ -170,42 +174,3 @@
     </div>
 </body>
 </html>
-
-<!--<ul>-->
-    <!--<li id="videoSearch"><a>Find Video<i class="down"></i></a></li>-->
-    <!--<ul class="videoSearchOption">-->
-        <!--<li><input type="text" placeholder="Video name" id="videoName"></li>-->
-        <!--<li>-->
-            <!--<form>-->
-                <!--<input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" class="white" oninput="amount.value=rangeInput.value">-->
-                <!--<input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="videoRating" placeholder="Video rating">-->
-            <!--</form>-->
-        <!--</li>-->
-        <!--<li><input type="text" placeholder="Video tags" id="videoTags"></li>-->
-        <!--<button type="submit" id="findVideo">Find</button>-->
-    <!--</ul>-->
-    <!--<li id="pictureSearch"><a>Find Picture<i class="down"></i></a></li>-->
-    <!--<ul class="pictureSearchOption">-->
-        <!--<li><input type="text" placeholder="Picture name" id="pictureName"></li>-->
-        <!--<li>-->
-            <!--<form>-->
-                <!--<input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" oninput="amount.value=rangeInput.value">-->
-                <!--<input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="pictureRating" placeholder="Picture rating">-->
-            <!--</form>-->
-        <!--</li>-->
-        <!--<li><input type="text" placeholder="Picture tags" id="pictureTags"></li>-->
-        <!--<button type="submit" id="findPicture">Find</button>-->
-    <!--</ul>-->
-    <!--<li id="audioSearch"><a>Find Audio<i class="down"></i></a></li>-->
-    <!--<ul class="audioSearchOption">-->
-        <!--<li><input type="text" placeholder="Audio name" id="audioName"></li>-->
-        <!--<li>-->
-            <!--<form>-->
-                <!--<input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" oninput="amount.value=rangeInput.value">-->
-                <!--<input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="audioRating" placeholder="Audio rating">-->
-            <!--</form>-->
-        <!--</li>-->
-        <!--<li><input type="text" placeholder="Audio tags" id="audioTags"></li>-->
-        <!--<button type="submit" id="findAudio">Find</button>-->
-    <!--</ul>-->
-<!--</ul>-->

@@ -7,7 +7,7 @@ window.onload = function () {
         var urlPictureRegExp = (/\.(gif|jpg|jpeg|tiff|png)$/i);
         return urlPictureRegExp.test(String(url).toLocaleLowerCase());
     }
-    function  checkOnAudio(url) {
+    function checkOnAudio(url) {
         var urlAudioRegExp = /\.(?:wav|mp3|ogg)$/i;
         return urlAudioRegExp.test(String(url).toLocaleLowerCase());
     }
@@ -42,10 +42,11 @@ window.onload = function () {
         constructor: Content,
 
         show: function(){
+            throw new Error('');
         },
         voteUp: function() {
             // this.rating++;
-            // this.notifyObsuervers();
+
             console.log("voteUp");
         },
         voteDown: function() {
@@ -68,10 +69,10 @@ window.onload = function () {
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
-                   <p>Rating: <button onclick={this.voteUp()}>Add</button>${this.rating}<button>Remove</button></p>
+                   <p>Rating: <button class="voteUp")">Add</button>${this.rating}<button>Remove</button></p>
                    <p>Tags: ${this.tags}</p>
                </div>
-            `;
+        `;
         return embedVideo;
     };
 
@@ -90,7 +91,7 @@ window.onload = function () {
              <div class="props">
                  <h1>Name: ${this.name}</h1>
                  <h3>Description ${this.description}</h3>
-                 <p>Rating: <button onclick={this.voteUp()}>Add</button>${this.rating}<button>Remove</button></p>
+                 <p>Rating: <button class="voteUp">Add</button>${this.rating}<button>Remove</button></p>
                  <p>Tags: ${this.tags}</p>
              </div>
            `;
@@ -114,7 +115,7 @@ window.onload = function () {
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
-                   <p>Rating: <button onclick={this.voteUp()}>Add</button>${this.rating}<button>Remove</button></p>
+                   <p>Rating: <button class="voteUp">Add</button>${this.rating}<button>Remove</button></p>
                    <p>Tags: ${this.tags}</p>
                </div>
             `;
@@ -313,18 +314,15 @@ window.onload = function () {
             contentList.showResults(contentList.findPictureTags(pictureTagsValue));
         }
     };
-    // document.getElementById("findAudio").onclick = function () {
-    //     var audioNameValue = document.getElementById("audioName").value;
-    //     var audioTagsValue = document.getElementById("audioTags").value;
-    //     if (audioNameValue && !audioTagsValue) {
-    //         return false
-    //     }
-    //     var audioArray = contentList.contentArr.filter(function(item) {
-    //         return item instanceof Video;
-    //     });
-    //     if (audioTagsValue) {
-    //         contentList.showResultsByName(audioNameValue, audioArray);
-    //     }
+
+    // function hello() {
+    //     console.log('sd');
     // }
+    //
+    // var buttons = document.querySelectorAll(".props .voteUp");
+    // buttons.forEach(function(btn) {
+    //     btn.addEventListener('click', );
+    // })
+
 };
 
