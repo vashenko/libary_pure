@@ -361,7 +361,6 @@ fieldset {
 
 .contentNavigation {
     grid-area: contentNavigation;
-    text-align: center;
     width: 324px;
     display: flex;
     flex-flow: column nowrap;
@@ -382,7 +381,7 @@ fieldset {
     font-size: 1.20em;
 }
 
-.contentNavigation button[type='submit'] {
+.contentNavigation input[type='submit'] {
     background-color: #2CBBBB;
     border: 1px solid #27A0A0;
     cursor: pointer;
@@ -394,6 +393,17 @@ fieldset {
     border-radius: 0.3em;
     font-family: 'Josefin Sans', sans-serif;
 
+}
+
+input[type="file"] {
+    display: none;
+}
+.fileUpload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .searchOptions {
@@ -480,10 +490,6 @@ fieldset {
 .embedPicture img {
     width: 100%;
     height: auto;
-}
-
-.elementId {
-    display: none;
 }
 
 .contentItem {

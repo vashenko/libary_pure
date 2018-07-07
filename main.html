@@ -105,11 +105,16 @@
 
         <aside class="contentNavigation">
             <div class="addContent">
-                <input type="name" id="contentName" placeholder="Name">
-                <input type="text" id="contentDescription" placeholder="Description">
-                <input type="url" id="contentUrl" placeholder="Url">
-                <input type="text" id="contentTags" placeholder="Tags">
-                <button type="submit" id="createContent">Create new content</button>
+                <form id="contentFormCreator">
+                    <input type="name" id="contentName" placeholder="Name">
+                    <input type="text" id="contentDescription" placeholder="Description">
+                    <input type="text" id="contentTags" placeholder="Tags">
+                    <label for="contentFile" class="fileUpload">
+                        <i class="fa fa-cloud-upload"></i> Add your file
+                    </label>
+                    <input id="contentFile" type="file"/>
+                </form>
+                <input type="submit" id="createContent" value="Create new content">
             </div>
 
             <div class="searchOptions">

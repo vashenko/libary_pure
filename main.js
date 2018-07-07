@@ -3,13 +3,11 @@ window.onload = function () {
         var urlVideoRegExp = /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/;
         return urlVideoRegExp.test(String(url).toLocaleLowerCase());
     }
-    function checkOnPicture(url) {
-        var urlPictureRegExp = (/\.(gif|jpg|jpeg|tiff|png)$/i);
-        return urlPictureRegExp.test(String(url).toLocaleLowerCase());
+    function checkOnPicture(file) {
+        return file.type === "image/png" || file.type === "image/jpg" || file.type === "image/gif";
     }
-    function checkOnAudio(url) {
-        var urlAudioRegExp = /\.(?:wav|mp3|ogg)$/i;
-        return urlAudioRegExp.test(String(url).toLocaleLowerCase());
+    function checkOnAudio(file) {
+        return file.type === "audio/mp3";
     }
     function clearSearchResult() {
         var nodeSearchResult = document.getElementById("searchResult");
@@ -31,7 +29,7 @@ window.onload = function () {
         document.getElementById("searchResult").insertBefore(noResult, null);
     }
 
-    function Content(name, description, url, rating, tags) {
+    function Content(name, description, rating, tags, url) {
         this.name = name;
         this.description = description;
         this.url = url;
@@ -54,8 +52,8 @@ window.onload = function () {
         }
     };
 
-    function Video(name, description, url, rating, tags) {
-        Content.call(this, name, description, url, rating, tags);
+    function Video(name, description, rating, tags, url) {
+        Content.call(this, name, description, rating, tags, url);
     }
     Video.prototype = Object.create(Content.prototype);
     Video.prototype.constructor = Video;
@@ -76,8 +74,8 @@ window.onload = function () {
         return embedVideo;
     };
 
-    function Picture(name, description, url, rating, tags) {
-        Content.call(this, name, description, url, rating, tags);
+    function Picture(name, description, rating, tags, url) {
+        Content.call(this, name, description, rating, tags, url);
     }
     Picture.prototype = Object.create(Content.prototype);
     Picture.prototype.constructor = Picture;
@@ -98,8 +96,8 @@ window.onload = function () {
         return embedPicture;
     };
 
-    function Audio(name, description, url, rating, tags) {
-        Content.call(this, name, description, url, rating, tags);
+    function Audio(name, description, rating, tags, url) {
+        Content.call(this, name, description, rating, tags, url);
     }
     Audio.prototype = Object.create(Content.prototype);
     Audio.prototype.constructor = Audio;
@@ -107,10 +105,10 @@ window.onload = function () {
         var embedVideo = document.createElement("div");
         embedVideo.className = "contentItem";
         embedVideo.innerHTML = `
-               <audio class="embedAudio">
+               <audio class="embedAudio" controls>
                    <source src="${this.url}" type="audio/ogg">
                    <source src="${this.url}" type="audio/mpeg">
-                   <source src="${this.url}" type="audio/wav  ">
+                   <source src="${this.url}" type="audio/mp3">
                </audio>
                <div class="props">
                    <h1>Name: ${this.name}</h1>
@@ -127,11 +125,12 @@ window.onload = function () {
     }
     ContentList.prototype = {
         addItem: function (content) {
+            console.log(content);
             this.contentArr.push(content);
         },
         showItem: function() {
             clearContent();
-            this.contentArr.forEach(function (item) {
+            this.contentArr.forEach(function(item) {
                 document.getElementById("content").insertBefore(item.show(), null);
             });
         },
@@ -235,34 +234,40 @@ window.onload = function () {
         }
 
     };
-    var pic = new Picture("name", "jesus", "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg", 1250, "#picture");
-    var pic1 = new Picture("man", "jesus", "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg", 1765, "#picture, #animal");
-    var vid = new Video("Vance Joy - 'Riptide' Official Video", "jesus", "https://www.youtube.com/embed/uJ_1HMAGb4k", 2000, "#video");
-    var contentList = new ContentList([pic, pic1, vid]);
-    contentList.showItem();
+    
+    var contentList = new ContentList([]);
+    // contentList.showItem();
 
-    document.getElementById("createContent").onclick = function() {
+    document.getElementById("createContent").addEventListener('click', function() {
+        var binaryFilesData = [];
         var contentName = document.getElementById("contentName").value;
         var contentDescription = document.getElementById("contentDescription").value;
-        var contentUrl = document.getElementById("contentUrl").value;
-        var contentTags = document.getElementById("contentTags").value;
         var contentRating = 0;
+        var contentTags = document.getElementById("contentTags").value;
+        var inputAddedFile = document.getElementById("contentFile").files[0];
+        binaryFilesData.push(inputAddedFile);
+        var contentUrl = window.URL.createObjectURL(new Blob(binaryFilesData, {type : 'text/html'}));
 
-        if (!contentName || !contentUrl) {
-            return false;
+        if (checkOnPicture(inputAddedFile)) {
+            contentList.addItem(new Picture(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
 
-        if (checkOnVideo(contentUrl)) {
-            contentList.addItem(new Video(contentName, contentDescription, contentUrl, contentRating, contentTags));
+        if (checkOnAudio(inputAddedFile)) {
+            console.log(inputAddedFile.type);
+            contentList.addItem(new Audio(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
-        if (checkOnPicture(contentUrl)) {
-            contentList.addItem(new Picture(contentName, contentDescription, contentUrl, contentRating, contentTags));
-        }
-        if (checkOnAudio(contentUrl)) {
-            contentList.addItem(new Audio(contentName, contentDescription, contentUrl, contentRating, contentTags));
-        }
+        // if (checkOnVideo(contentUrl)) {
+        //     contentList.addItem(new Video(contentName, contentDescription, contentUrl, contentRating, contentTags));
+        // }
+        // if (checkOnPicture(contentUrl)) {
+        //     contentList.addItem(new Picture(contentName, contentDescription, contentUrl, contentRating, contentTags));
+        // }
+        // if (checkOnAudio(contentUrl)) {
+        //     contentList.addItem(new Audio(contentName, contentDescription, contentUrl, contentRating, contentTags));
+        // }
         contentList.showItem();
-    };
+    });
+
 
     document.getElementById("findVideo").onclick = function () {
         clearSearchResult();
