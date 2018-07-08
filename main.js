@@ -1,11 +1,14 @@
 window.onload = function () {
     function checkOnVideo(file) {
+        if (!file || file === undefined) return;
         return file.type === "video/mp4" || file.type === "video/webm" || file.type === "video/ogg";
     }
     function checkOnPicture(file) {
+        if (!file || file === undefined) return;
         return file.type === "image/png" || file.type === "image/jpg" || file.type === "image/gif";
     }
     function checkOnAudio(file) {
+        if (!file || file === undefined) return;
         return file.type === "audio/mpeg" || file.type === "audio/ogg" || file.type === "audio/mp3";
     }
     function clearSearchResult() {
@@ -27,14 +30,55 @@ window.onload = function () {
         noResult.innerHTML = "No such files";
         document.getElementById("searchResult").insertBefore(noResult, null);
     }
+    function status(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText))
+        }
+    }
+    function json(response) {
+        return response.json()
+    }
+    function getContent() {
+        var contentArr = [];
+        fetch("http://localhost:8080/contents")
+            .then(status)
+            .then(json)
+            .then(function(data) {
+               data.forEach(function(item) {
+                   console.log(data);
+                   // contentArr.push(new Audio(item.id, item.name, item.description, item.rating, item.tags, item.url));
+                   contentArr.push(item);
+                   console.log(contentArr);
+               })
+            })
+        return contentArr;
+    }
+    function postContent(obj) {
+        fetch("http://localhost:8080/content/add", {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                "Content-type" : "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then(function(data) {
+            console.log('Request succeeded with JSON response', data);
+        }).catch(function (error) {
+            console.log('Request failed', error);
+        });
+    }
 
-    function Content(name, description, rating, tags, url) {
+    function Content(id, name, description, rating, tags, url) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.url = url;
         this.rating = rating;
         this.tags = tags;
     }
+    
     Content.prototype = {
         constructor: Content,
 
@@ -51,8 +95,8 @@ window.onload = function () {
         }
     };
 
-    function Video(name, description, rating, tags, url) {
-        Content.call(this, name, description, rating, tags, url);
+    function Video(id, name, description, rating, tags, url) {
+        Content.call(this, id, name, description, rating, tags, url);
     }
     Video.prototype = Object.create(Content.prototype);
     Video.prototype.constructor = Video;
@@ -77,8 +121,8 @@ window.onload = function () {
         return embedVideo;
     };
 
-    function Picture(name, description, rating, tags, url) {
-        Content.call(this, name, description, rating, tags, url);
+    function Picture(id, name, description, rating, tags, url) {
+        Content.call(this, id, name, description, rating, tags, url);
     }
     Picture.prototype = Object.create(Content.prototype);
     Picture.prototype.constructor = Picture;
@@ -99,8 +143,8 @@ window.onload = function () {
         return embedPicture;
     };
 
-    function Audio(name, description, rating, tags, url) {
-        Content.call(this, name, description, rating, tags, url);
+    function Audio(id, name, description, rating, tags, url) {
+        Content.call(this, id, name, description, rating, tags, url);
     }
     Audio.prototype = Object.create(Content.prototype);
     Audio.prototype.constructor = Audio;
@@ -125,139 +169,135 @@ window.onload = function () {
         return embedVideo;
     };
 
-    function ContentList() {
-        this.fromLocalStorage();
+    function ContentList(contentArr) {
+        this.contentArr = contentArr;
+        console.log(contentArr.length);
     }
     ContentList.prototype = {
         addItem: function (content) {
-            console.log(content);
             this.contentArr.push(content);
         },
         showItem: function() {
-            clearContent();
+            console.log("call show item");
+            console.log(this.contentArr);
+            console.log(this.contentArr.length);
             this.contentArr.forEach(function(item) {
+                console.log(item);
                 document.getElementById("content").insertBefore(item.show(), null);
             });
-        },
-        getVideo: function() {
-            return this.contentArr.filter(function(item) {
-                return item instanceof Video;
-            });
-        },
-        getPicture: function() {
-            return this.contentArr.filter(function(item) {
-                return item instanceof Picture;
-            });
-        },
-        getAudio: function() {
-            return this.contentArr.filter(function(item) {
-                return item instanceof Audio;
-            });
-        },
-        findVideoName: function(value) {
-            return this.getVideo().filter(function(item) {
-                return item.name.includes(value);
-            })
-        },
-        findVideoRating: function(value) {
-            return this.getVideo().filter(function(item) {
-                return item.rating >= value;
-            })
-        },
-        findVideoTags: function(value) {
-            return this.getVideo().filter(function(item) {
-                return item.tags.includes(value);
-            })
-        },
-        findVideoByNameAndTags: function(nameValue, tagsValue) {
-            return this.findVideoName(nameValue).filter(function(item) {
-                return item.tags.includes(tagsValue);
-            })
-        },
-        findVideoByNameAndRating: function(nameValue, ratingValue) {
-            return this.findVideoName(nameValue).filter(function(item) {
-                return item.rating >= ratingValue;
-            })
-        },
-        findVideoByRatingAndTags: function(ratingValue, tagsValue){
-            return this.findVideoRating(ratingValue).filter(function(item) {
-                return item.tags.includes(tagsValue);
-            })
-        },
-        findVideoByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
-            return this.findVideoByNameAndTags(nameValue, tagsValue).filter(function(item) {
-                return item.rating >= ratingValue;
-            })
-        },
-        findPictureName: function(value) {
-            return this.getPicture().filter(function(item) {
-                return item.name.includes(value);
-            })
-        },
-        findPictureRating: function(value) {
-            return this.getPicture().filter(function(item) {
-                return item.rating >= value;
-            })
-        },
-        findPictureTags: function(value) {
-            return this.getPicture().filter(function(item) {
-                return item.tags.includes(value);
-            })
-        },
-        findPictureByNameAndTags: function(nameValue, tagsValue) {
-            return this.findPictureName(nameValue).filter(function(item) {
-                return item.tags.includes(tagsValue);
-            })
-        },
-        findPictureByNameAndRating: function(nameValue, ratingValue) {
-            return this.findPictureName(nameValue).filter(function(item) {
-                return item.rating >= ratingValue;
-            })
-        },
-        findPictureByRatingAndTags: function(ratingValue, tagsValue){
-            return this.findPictureRating(ratingValue).filter(function(item) {
-                return item.tags.includes(tagsValue);
-            })
-        },
-        findPictureByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
-            return this.findPictureByNameAndTags(nameValue, tagsValue).filter(function(item) {
-                return item.rating >= ratingValue;
-            })
-        },
-        showResults: function(arr) {
-            var outPut = document.createElement("div");
-            outPut.className = "outPutElem";
-            document.getElementById("content").style.display = "none";
-            if (arr.length == 0 || arr === undefined) {
-                noSuchFiles();
-            } else {
-                arr.forEach(function (item) {
-                    outPut.insertBefore(item.show(), null);
-                });
-                return document.getElementById("searchResult").insertBefore(outPut, null);
-            }
-        },
-        fromLocalStorage: function () {
-            if (localStorage.getItem('contentList')){
-                this.contentArr = JSON.parse(localStorage.getItem('contentList'));
-            }else {
-                this.contentArr  = [];
-            }
-        },
-        toLocalStorage: function() {
-            if(this.contacts.length >= 0){
-                localStorage.setItem('listOfContacts', JSON.stringify(this.contacts));
-            }
+
+            console.log("ent of show oitem");
         }
+        // showItem: function() {
+        //     getContent();
+        // },
+
+        // getVideo: function() {
+        //     return this.contentArr.filter(function(item) {
+        //         return item instanceof Video;
+        //     });
+        // },
+        // getPicture: function() {
+        //     return this.contentArr.filter(function(item) {
+        //         return item instanceof Picture;
+        //     });
+        // },
+        // getAudio: function() {
+        //     return this.contentArr.filter(function(item) {
+        //         return item instanceof Audio;
+        //     });
+        // },
+        // findVideoName: function(value) {
+        //     return this.getVideo().filter(function(item) {
+        //         return item.name.includes(value);
+        //     })
+        // },
+        // findVideoRating: function(value) {
+        //     return this.getVideo().filter(function(item) {
+        //         return item.rating >= value;
+        //     })
+        // },
+        // findVideoTags: function(value) {
+        //     return this.getVideo().filter(function(item) {
+        //         return item.tags.includes(value);
+        //     })
+        // },
+        // findVideoByNameAndTags: function(nameValue, tagsValue) {
+        //     return this.findVideoName(nameValue).filter(function(item) {
+        //         return item.tags.includes(tagsValue);
+        //     })
+        // },
+        // findVideoByNameAndRating: function(nameValue, ratingValue) {
+        //     return this.findVideoName(nameValue).filter(function(item) {
+        //         return item.rating >= ratingValue;
+        //     })
+        // },
+        // findVideoByRatingAndTags: function(ratingValue, tagsValue){
+        //     return this.findVideoRating(ratingValue).filter(function(item) {
+        //         return item.tags.includes(tagsValue);
+        //     })
+        // },
+        // findVideoByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
+        //     return this.findVideoByNameAndTags(nameValue, tagsValue).filter(function(item) {
+        //         return item.rating >= ratingValue;
+        //     })
+        // },
+        // findPictureName: function(value) {
+        //     return this.getPicture().filter(function(item) {
+        //         return item.name.includes(value);
+        //     })
+        // },
+        // findPictureRating: function(value) {
+        //     return this.getPicture().filter(function(item) {
+        //         return item.rating >= value;
+        //     })
+        // },
+        // findPictureTags: function(value) {
+        //     return this.getPicture().filter(function(item) {
+        //         return item.tags.includes(value);
+        //     })
+        // },
+        // findPictureByNameAndTags: function(nameValue, tagsValue) {
+        //     return this.findPictureName(nameValue).filter(function(item) {
+        //         return item.tags.includes(tagsValue);
+        //     })
+        // },
+        // findPictureByNameAndRating: function(nameValue, ratingValue) {
+        //     return this.findPictureName(nameValue).filter(function(item) {
+        //         return item.rating >= ratingValue;
+        //     })
+        // },
+        // findPictureByRatingAndTags: function(ratingValue, tagsValue){
+        //     return this.findPictureRating(ratingValue).filter(function(item) {
+        //         return item.tags.includes(tagsValue);
+        //     })
+        // },
+        // findPictureByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
+        //     return this.findPictureByNameAndTags(nameValue, tagsValue).filter(function(item) {
+        //         return item.rating >= ratingValue;
+        //     })
+        // },
+        // showResults: function(arr) {
+        //     var outPut = document.createElement("div");
+        //     outPut.className = "outPutElem";
+        //     document.getElementById("content").style.display = "none";
+        //     if (arr.length == 0 || arr === undefined) {
+        //         noSuchFiles();
+        //     } else {
+        //         arr.forEach(function (item) {
+        //             outPut.insertBefore(item.show(), null);
+        //         });
+        //         return document.getElementById("searchResult").insertBefore(outPut, null);
+        //     }
+        // },
 
     };
-    
-    var contentList = new ContentList();
+
+    var contentList = new ContentList([]);
     contentList.showItem();
 
     document.getElementById("contentFormCreator").addEventListener('submit', function(event) {
         event.preventDefault();
-
         var binaryFilesData = [];
         var contentName = document.getElementById("contentName").value;
         var contentDescription = document.getElementById("contentDescription").value;
@@ -268,14 +308,17 @@ window.onload = function () {
         var contentUrl = window.URL.createObjectURL(new Blob(binaryFilesData, {type : 'text/html'}));
 
         if (checkOnPicture(inputAddedFile)) {
+            console.log("good");
             contentList.addItem(new Picture(contentName, contentDescription, contentRating, contentTags, contentUrl));
+            postContent(new Picture(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
         if (checkOnAudio(inputAddedFile)) {
-            console.log(inputAddedFile.type);
             contentList.addItem(new Audio(contentName, contentDescription, contentRating, contentTags, contentUrl));
+            postContent(new Audio(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
         if (checkOnVideo(inputAddedFile)) {
             contentList.addItem(new Video(contentName, contentDescription, contentRating, contentTags, contentUrl));
+            postContent(new Video(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
         contentList.showItem();
     });
