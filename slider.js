@@ -31,55 +31,15 @@ buttonNext.onclick = function () {
 
 // toggle animation
 
-var toggleVideoElem = document.getElementById("videoSearchOption");
-var togglePictureElem = document.getElementById("pictureSearchOption");
-var toggleAudioElem = document.getElementById("audioSearchOption");
+var toggleSearchContentElem = document.getElementById("contentSearchOption");
 
-document.getElementById("videoSearch").onclick = function() {
-    if (isVisible(togglePictureElem)) {
-        fadeOut(togglePictureElem);
+document.getElementById("contentSearch").addEventListener('click', function() {
+    if (isVisible(toggleSearchContentElem)) {
+        fadeOut(toggleSearchContentElem);
+    }else {
+        fadeIn(toggleSearchContentElem);
     }
-    if (isVisible(toggleAudioElem)) {
-        fadeOut(toggleAudioElem);
-    }
-
-    if (isVisible(toggleVideoElem)) {
-        fadeOut(toggleVideoElem);
-    } else {
-        fadeIn(toggleVideoElem);
-    }
-};
-
-document.getElementById("pictureSearch").onclick = function() {
-    if (isVisible(toggleVideoElem)) {
-        fadeOut(toggleVideoElem);
-    }
-    if (isVisible(toggleAudioElem)) {
-        fadeOut(toggleAudioElem);
-    }
-
-    if (isVisible(togglePictureElem)) {
-        fadeOut(togglePictureElem);
-    } else {
-        fadeIn(togglePictureElem);
-    }
-};
-
-document.getElementById("audioSearch").onclick = function() {
-    if (isVisible(toggleVideoElem)) {
-        fadeOut(toggleVideoElem);
-    }
-    if (isVisible(togglePictureElem)) {
-        fadeOut(togglePictureElem);
-    }
-
-    if (isVisible(toggleAudioElem)) {
-        fadeOut(toggleAudioElem);
-    } else {
-        fadeIn(toggleAudioElem);
-    }
-};
-
+});
 
 function fadeOut(elem) {
     var handler = function() {
@@ -108,7 +68,6 @@ function fadeIn(elem) {
 
     elem.addEventListener('transitionend', handler);
 }
-
 function isVisible(elem) {
     var elemCurrentStyle = getComputedStyle(elem);
     return elemCurrentStyle.display === "block";

@@ -24,61 +24,25 @@ window.onload = function () {
         }
     }
     function noSuchFiles() {
-        clearContent();
+        // clearContent();
         var noResult = document.createElement("h3");
         noResult.className = "noResult";
-        noResult.innerHTML = "No such files";
+        noResult.innerHTML = "No such files. Back to content";
+        noResult.addEventListener("click", function () {
+            clearSearchResult();
+            document.getElementById("content").style.display = "block";
+        });
         document.getElementById("searchResult").insertBefore(noResult, null);
     }
-    function status(response) {
-        if (response.status >= 200 && response.status < 300) {
-            return Promise.resolve(response)
-        } else {
-            return Promise.reject(new Error(response.statusText))
-        }
-    }
-    function json(response) {
-        return response.json()
-    }
-    function getContent() {
-        var contentArr = [];
-        fetch("http://localhost:8080/contents")
-            .then(status)
-            .then(json)
-            .then(function(data) {
-               data.forEach(function(item) {
-                   console.log(data);
-                   // contentArr.push(new Audio(item.id, item.name, item.description, item.rating, item.tags, item.url));
-                   contentArr.push(item);
-                   console.log(contentArr);
-               })
-            })
-        return contentArr;
-    }
-    function postContent(obj) {
-        fetch("http://localhost:8080/content/add", {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                "Content-type" : "application/json"
-            },
-            body: JSON.stringify(obj)
-        }).then(function(data) {
-            console.log('Request succeeded with JSON response', data);
-        }).catch(function (error) {
-            console.log('Request failed', error);
-        });
-    }
 
-    function Content(id, name, description, rating, tags, url) {
-        this.id = id;
+    function Content(name, description, rating, tags, url) {
         this.name = name;
         this.description = description;
         this.url = url;
         this.rating = rating;
         this.tags = tags;
     }
-    
+
     Content.prototype = {
         constructor: Content,
 
@@ -95,8 +59,8 @@ window.onload = function () {
         }
     };
 
-    function Video(id, name, description, rating, tags, url) {
-        Content.call(this, id, name, description, rating, tags, url);
+    function Video(name, description, rating, tags, url) {
+        Content.call(this, name, description, rating, tags, url);
     }
     Video.prototype = Object.create(Content.prototype);
     Video.prototype.constructor = Video;
@@ -121,8 +85,8 @@ window.onload = function () {
         return embedVideo;
     };
 
-    function Picture(id, name, description, rating, tags, url) {
-        Content.call(this, id, name, description, rating, tags, url);
+    function Picture(name, description, rating, tags, url) {
+        Content.call(this, name, description, rating, tags, url);
     }
     Picture.prototype = Object.create(Content.prototype);
     Picture.prototype.constructor = Picture;
@@ -143,8 +107,8 @@ window.onload = function () {
         return embedPicture;
     };
 
-    function Audio(id, name, description, rating, tags, url) {
-        Content.call(this, id, name, description, rating, tags, url);
+    function Audio(name, description, rating, tags, url) {
+        Content.call(this, name, description, rating, tags, url);
     }
     Audio.prototype = Object.create(Content.prototype);
     Audio.prototype.constructor = Audio;
@@ -171,210 +135,120 @@ window.onload = function () {
 
     function ContentList(contentArr) {
         this.contentArr = contentArr;
-        console.log(contentArr.length);
     }
     ContentList.prototype = {
         addItem: function (content) {
             this.contentArr.push(content);
         },
         showItem: function() {
-            console.log("call show item");
-            console.log(this.contentArr);
-            console.log(this.contentArr.length);
+            clearContent();
             this.contentArr.forEach(function(item) {
-                console.log(item);
                 document.getElementById("content").insertBefore(item.show(), null);
             });
-
-            console.log("ent of show oitem");
+        },
+        findContentByName: function(value) {
+            return this.contentArr.filter(function(item) {
+                return item.name.includes(value);
+            })
+        },
+        findContentByRating: function(value) {
+            return this.contentArr.filter(function(item) {
+                return item.rating >= value;
+            })
+        },
+        findContentByTags: function(value) {
+            return this.contentArr.filter(function(item) {
+                return item.tags.includes(value);
+            })
+        },
+        findContentByNameAndTags: function(nameValue, tagsValue) {
+            return this.findContentByName(nameValue).filter(function(item) {
+                return item.tags.includes(tagsValue);
+            })
+        },
+        findContentByNameAndRating: function(nameValue, ratingValue) {
+            return this.findContentByName(nameValue).filter(function(item) {
+                return item.rating >= ratingValue;
+            })
+        },
+        findContentByRatingAndTags: function(ratingValue, tagsValue){
+            return this.findContentByRating(ratingValue).filter(function(item) {
+                return item.tags.includes(tagsValue);
+            })
+        },
+        findContentByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
+            return this.findContentByNameAndTags(nameValue, tagsValue).filter(function(item) {
+                return item.rating >= ratingValue;
+            })
+        },
+        showResults: function(arr) {
+            var outPut = document.createElement("div");
+            outPut.className = "outPutElem";
+            document.getElementById("content").style.display = "none";
+            if (arr.length == 0 || arr === undefined) {
+                noSuchFiles();
+            } else {
+                arr.forEach(function (item) {
+                    outPut.insertBefore(item.show(), null);
+                });
+                return document.getElementById("searchResult").insertBefore(outPut, null);
+            }
         }
-        // showItem: function() {
-        //     getContent();
-        // },
-
-        // getVideo: function() {
-        //     return this.contentArr.filter(function(item) {
-        //         return item instanceof Video;
-        //     });
-        // },
-        // getPicture: function() {
-        //     return this.contentArr.filter(function(item) {
-        //         return item instanceof Picture;
-        //     });
-        // },
-        // getAudio: function() {
-        //     return this.contentArr.filter(function(item) {
-        //         return item instanceof Audio;
-        //     });
-        // },
-        // findVideoName: function(value) {
-        //     return this.getVideo().filter(function(item) {
-        //         return item.name.includes(value);
-        //     })
-        // },
-        // findVideoRating: function(value) {
-        //     return this.getVideo().filter(function(item) {
-        //         return item.rating >= value;
-        //     })
-        // },
-        // findVideoTags: function(value) {
-        //     return this.getVideo().filter(function(item) {
-        //         return item.tags.includes(value);
-        //     })
-        // },
-        // findVideoByNameAndTags: function(nameValue, tagsValue) {
-        //     return this.findVideoName(nameValue).filter(function(item) {
-        //         return item.tags.includes(tagsValue);
-        //     })
-        // },
-        // findVideoByNameAndRating: function(nameValue, ratingValue) {
-        //     return this.findVideoName(nameValue).filter(function(item) {
-        //         return item.rating >= ratingValue;
-        //     })
-        // },
-        // findVideoByRatingAndTags: function(ratingValue, tagsValue){
-        //     return this.findVideoRating(ratingValue).filter(function(item) {
-        //         return item.tags.includes(tagsValue);
-        //     })
-        // },
-        // findVideoByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
-        //     return this.findVideoByNameAndTags(nameValue, tagsValue).filter(function(item) {
-        //         return item.rating >= ratingValue;
-        //     })
-        // },
-        // findPictureName: function(value) {
-        //     return this.getPicture().filter(function(item) {
-        //         return item.name.includes(value);
-        //     })
-        // },
-        // findPictureRating: function(value) {
-        //     return this.getPicture().filter(function(item) {
-        //         return item.rating >= value;
-        //     })
-        // },
-        // findPictureTags: function(value) {
-        //     return this.getPicture().filter(function(item) {
-        //         return item.tags.includes(value);
-        //     })
-        // },
-        // findPictureByNameAndTags: function(nameValue, tagsValue) {
-        //     return this.findPictureName(nameValue).filter(function(item) {
-        //         return item.tags.includes(tagsValue);
-        //     })
-        // },
-        // findPictureByNameAndRating: function(nameValue, ratingValue) {
-        //     return this.findPictureName(nameValue).filter(function(item) {
-        //         return item.rating >= ratingValue;
-        //     })
-        // },
-        // findPictureByRatingAndTags: function(ratingValue, tagsValue){
-        //     return this.findPictureRating(ratingValue).filter(function(item) {
-        //         return item.tags.includes(tagsValue);
-        //     })
-        // },
-        // findPictureByNameRatingAndTags: function(nameValue, ratingValue, tagsValue){
-        //     return this.findPictureByNameAndTags(nameValue, tagsValue).filter(function(item) {
-        //         return item.rating >= ratingValue;
-        //     })
-        // },
-        // showResults: function(arr) {
-        //     var outPut = document.createElement("div");
-        //     outPut.className = "outPutElem";
-        //     document.getElementById("content").style.display = "none";
-        //     if (arr.length == 0 || arr === undefined) {
-        //         noSuchFiles();
-        //     } else {
-        //         arr.forEach(function (item) {
-        //             outPut.insertBefore(item.show(), null);
-        //         });
-        //         return document.getElementById("searchResult").insertBefore(outPut, null);
-        //     }
-        // },
-
     };
 
     var contentList = new ContentList([]);
     contentList.showItem();
 
-    document.getElementById("contentFormCreator").addEventListener('submit', function(event) {
+    document.getElementById("createContent").addEventListener('click', function(event) {
         event.preventDefault();
-        var binaryFilesData = [];
         var contentName = document.getElementById("contentName").value;
         var contentDescription = document.getElementById("contentDescription").value;
         var contentRating = 0;
         var contentTags = document.getElementById("contentTags").value;
-        var inputAddedFile = document.getElementById("contentFile").files[0];
-        binaryFilesData.push(inputAddedFile);
-        var contentUrl = window.URL.createObjectURL(new Blob(binaryFilesData, {type : 'text/html'}));
+        var contentAddedFile = document.getElementById("contentFile").files[0];
+        var contentUrl = window.URL.createObjectURL(new Blob([contentAddedFile], {type : 'text/html'}));
 
-        if (checkOnPicture(inputAddedFile)) {
-            console.log("good");
+        if (checkOnPicture(contentAddedFile)) {
             contentList.addItem(new Picture(contentName, contentDescription, contentRating, contentTags, contentUrl));
-            postContent(new Picture(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
-        if (checkOnAudio(inputAddedFile)) {
+        if (checkOnAudio(contentAddedFile)) {
             contentList.addItem(new Audio(contentName, contentDescription, contentRating, contentTags, contentUrl));
-            postContent(new Audio(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
-        if (checkOnVideo(inputAddedFile)) {
+        if (checkOnVideo(contentAddedFile)) {
             contentList.addItem(new Video(contentName, contentDescription, contentRating, contentTags, contentUrl));
-            postContent(new Video(contentName, contentDescription, contentRating, contentTags, contentUrl));
         }
+
+        document.getElementById("contentCreatorForm").reset();
         contentList.showItem();
     });
 
 
-    document.getElementById("findVideo").onclick = function () {
+    document.getElementById("findContent").addEventListener("click", function(event) {
+        event.preventDefault();
         clearSearchResult();
-        var videoNameValue = document.getElementById("videoName").value;
-        var videoRatingValue = document.getElementById("videoRating").value;
-        var videoTagsValue = document.getElementById("videoTags").value;
-        if (!videoNameValue && !videoRatingValue && !videoTagsValue) {
-            return false
-        }
-
-        if (videoNameValue && videoRatingValue && videoTagsValue) {
-            contentList.showResults(contentList.findVideoByNameRatingAndTags(videoNameValue, videoRatingValue, videoTagsValue));
-        }else if (videoNameValue && videoRatingValue) {
-            contentList.showResults(contentList.findVideoByNameAndRating(videoNameValue, videoRatingValue));
-        }else if (videoNameValue && videoTagsValue) {
-            contentList.showResults(contentList.findVideoByNameAndTags(videoNameValue, videoTagsValue));
-        }else if (videoRatingValue && videoTagsValue) {
-            contentList.showResults(contentList.findVideoByRatingAndTags(videoRatingValue, videoTagsValue));
-        }else if (videoNameValue) {
-            contentList.showResults(contentList.findVideoName(videoNameValue));
-        }else if (videoRatingValue) {
-            contentList.showResults(contentList.findVideoRating(videoRatingValue));
+        var contentSearchName = document.getElementById("contentSearchName").value;
+        var contentSearchRating = document.getElementById("contentSearchRating").value;
+        var contentSearchTags = document.getElementById("contentSearchTags").value;
+        
+        if (!contentSearchName && !contentSearchRating && !contentSearchTags) {
+            return false;
+        }else if (contentSearchName && contentSearchRating && contentSearchTags){
+            contentList.showResults(contentList.findContentByNameRatingAndTags(contentSearchName, contentSearchRating, contentSearchTags));
+        }else if (contentSearchName && contentSearchRating) {
+            contentList.showResults(contentList.findContentByNameAndRating(contentSearchName, contentSearchRating));
+        }else if (contentSearchName && contentSearchTags) {
+            contentList.showResults(contentList.findContentByNameAndTags(contentSearchName, contentSearchTags))
+        }else if (contentSearchRating && contentSearchTags) {
+            contentList.showResults(contentList.findContentByRatingAndTags(contentSearchRating, contentSearchTags));
+        }else if (contentSearchName) {
+            contentList.showResults(contentList.findContentByName(contentSearchName));
+        }else if (contentSearchRating) {
+            contentList.showResults(contentList.findContentByRating(contentSearchRating));
         }else {
-            contentList.showResults(contentList.findVideoTags(videoTagsValue));
-        }
-    };
-    document.getElementById("findPicture").onclick = function () {
-        clearSearchResult();
-        var pictureNameValue = document.getElementById("pictureName").value;
-        var pictureRatingValue = document.getElementById("pictureRating").value;
-        var pictureTagsValue = document.getElementById("pictureTags").value;
-        if (!pictureNameValue && !pictureRatingValue && !pictureTagsValue) {
-            return false
+            contentList.showResults(contentList.findContentByTags(contentSearchTags));
         }
 
-        if (pictureNameValue && pictureRatingValue && pictureTagsValue) {
-            contentList.showResults(contentList.findPictureByNameRatingAndTags(pictureNameValue, pictureRatingValue, pictureTagsValue));
-        }else if (pictureNameValue && pictureRatingValue) {
-            contentList.showResults(contentList.findPictureByNameAndRating(pictureNameValue, pictureRatingValue));
-        }else if (pictureNameValue && pictureTagsValue) {
-            contentList.showResults(contentList.findPictureByNameAndTags(pictureNameValue, pictureTagsValue));
-        }else if (pictureRatingValue && pictureTagsValue) {
-            contentList.showResults(contentList.findPictureByRatingAndTags(pictureRatingValue, pictureTagsValue));
-        }else if (pictureNameValue) {
-            contentList.showResults(contentList.findPictureName(pictureNameValue));
-        }else if (pictureRatingValue) {
-            contentList.showResults(contentList.findPictureRating(pictureRatingValue));
-        }else {
-            contentList.showResults(contentList.findPictureTags(pictureTagsValue));
-        }
-    };
-
-
+        document.getElementById("findContentForm").reset();
+    })
 };
 

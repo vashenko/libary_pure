@@ -62,6 +62,7 @@ a {
     grid-template-areas:
             "header header header header"
             "nav nav nav nav"
+            "contactUs contactUs contactUs contactUs"
             "slider slider slider slider"
             "contentNavigation mainContent mainContent  mainContent"
             "footer footer footer footer";
@@ -93,6 +94,18 @@ nav {
     padding: 1.25em 0;
 }
 
+.logo a {
+    font-size: 1em;
+    padding: 0 0.3em;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: normal;
+}
+
+.fa-home {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
 nav .information {
     align-self: flex-end;
 }
@@ -118,7 +131,7 @@ nav .information .toggleMenu {
 
 /* modal window layout */
 
-.popup h2 { /* заголовок 2 */
+.popup h2 {
     font-size: 1.5em;
 }
 /* Базовые стили слоя затемнения и модального окна  */
@@ -130,11 +143,9 @@ nav .information .toggleMenu {
     left: 0;
     z-index: 9999;
     visibility: hidden;
-    /* фон затемнения */
     background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
-    position: fixed; /* фиксированное поцизионирование */
-    cursor: default; /* тип курсара */
+    position: fixed;
     -webkit-transition: all 0.6s;
     -moz-transition: all 0.6s;
     -ms-transition: all 0.6s;
@@ -149,7 +160,6 @@ nav .information .toggleMenu {
 /* стили модального окна */
 .popup {
     top: 0;
-    right: 0;
     left: 50%;
     font-size: 14px;
     font-family: 'Tahoma', Arial, sans-serif;
@@ -157,9 +167,7 @@ nav .information .toggleMenu {
     margin: 0 auto;
     width: 100%;
     height: auto;
-    /* фиксированное позиционирование, окно стабильно при прокрутке */
     position: fixed;
-    padding: 15px;
     /* трансформация */
     -webkit-transform: translate(-50%, -150%);
     -ms-transform: translate(-50%, -150%);
@@ -176,7 +184,7 @@ nav .information .toggleMenu {
 /* активируем мод. окно */
 .overlay:target+.popup {
     top: 50%;
-    -webkit-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -199,8 +207,6 @@ nav .information .toggleMenu {
     -moz-box-shadow: 0px 0px 10px #000;
     box-shadow: 0px 0px 10px #000;
     text-align: center;
-    text-decoration: none;
-    font-weight: bold;
     line-height: 20px;
     -webkit-transition: background-color ease .7s;
     -moz-transition:  background-color ease .7s;
@@ -293,12 +299,6 @@ fieldset {
     font-size: 15px;
     border-radius: 0.3em;
 }
-
-.signUpt input:focus,
-.signUp textarea:focus {
-    border: 1px solid #aaa;
-}
-
 
 /* slider layout */
 
@@ -407,25 +407,8 @@ input[type="file"] {
     margin-top: 1em;
 }
 
-.searchOptions {
-    display: flex;
-    flex-flow: column nowrap;
-    text-align: left;
-    margin-top: 1.25em;
-}
-
-.searchOptions button[type='submit'] {
-    background-color: #2CBBBB;
-    border: 1px solid #27A0A0;
-    cursor: pointer;
-    color: #FFFFFF;
-    font-size: 1em;
-    padding: 8px 18px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    border-radius: 0.3em;
-    font-family: 'Josefin Sans', sans-serif;
-
+.searchOptions > div {
+    display: none;
 }
 
 .searchOptions h3 {
@@ -435,17 +418,6 @@ input[type="file"] {
     cursor: pointer;
     text-decoration: underline;
 }
-
-
-.searchOptions ul li ul  {
-    text-align: center;
-}
-
-.searchOptions ul {
-    display: none;
-    margin-bottom: 1em;
-}
-
 .preActive {
     opacity: 0;
     transform: translateY(-50px);
@@ -505,7 +477,7 @@ input[type="file"] {
 
 .embedPicture img {
     width: 100%;
-    height: auto;
+    max-height: 450px;
 }
 
 .contentItem {
@@ -534,6 +506,8 @@ input[type="file"] {
     font-size: 1.5em;
     font-family: 'Josefin Sans', sans-serif;
     text-align: center;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /* footer layout */
@@ -609,6 +583,26 @@ nav ul li a:hover {
 
 /* contact us layout */
 
+.contactUs{
+    width: 100%;
+    grid-area: contactUs;
+}
+
+.contactUsMap {
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0
+}
+
+.contactUsMap iframe {
+    left:0;
+    top:0;
+    height: 100%;
+    width: 100%;
+    position:absolute;
+}
+
 .contactUs h3 {
     font-size: 1.4em;
     margin: 1em 0 1.5em 0;
@@ -653,6 +647,7 @@ nav ul li a:hover {
         grid-template-areas:
                 "header header header header"
                 "nav nav nav nav"
+                "contactUs contactUs contactUs contactUs"
                 "slider slider slider slider"
                 "contentNavigation contentNavigation contentNavigation contentNavigation"
                 "mainContent mainContent mainContent mainContent"
@@ -676,20 +671,13 @@ nav ul li a:hover {
         max-height: 600px;
     }
 
-    .signUp input[type="text"],
-    .signUp input[type="email"],
-    .signUp input[type="password"] {
-        width: 1
-    }
-
-    .searchOptions {
-        flex-flow: row nowrap;
-        justify-content: center;
-    }
-
     .searchOptions > div {
         margin: 0 0.5em;
         font-size: 0.8em;
+    }
+
+    .searchOptions {
+        text-align: center;
     }
 
 }
@@ -716,6 +704,7 @@ nav ul li a:hover {
         grid-template-areas:
                 "header header header header"
                 "nav nav nav nav"
+                "contactUs contactUs contactUs contactUs"
                 "slider slider slider slider"
                 "contentNavigation contentNavigation contentNavigation contentNavigation"
                 "mainContent mainContent mainContent mainContent"
@@ -782,6 +771,18 @@ nav ul li a:hover {
     .searchOptions button[type='submit'] {
         padding: 0.4em;
         font-size: 0.8em;
+    }
+
+    .contactUs h3 {
+        font-size: 1.2em;
+    }
+
+    .contactUs ul li {
+        font-size: 1em;
+    }
+
+    .contactUs ul i {
+        font-size: 1.2em;
     }
 
 }

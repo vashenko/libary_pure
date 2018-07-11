@@ -15,167 +15,137 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
 </head>
 <body>
-    <div class="wrapper" id="wrap">
+<div class="wrapper" id="wrap">
 
-        <header>
-            <h1>You web libary</h1>
-            <br>
-            <span class="headline">All you need - is information</span>
-        </header>
+    <header>
+        <h1>You web libary</h1>
+        <br>
+        <span class="headline">All you need - is information</span>
+    </header>
 
-        <nav>
-            <div class="logo">
-                <h1>Cool Logo</h1>
-            </div>
-
-            <div class="information">
-                <ul>
-                    <input type="checkbox" id="toggleMenu">
-                    <li class="toggleMenu"><a><label for="toggleMenu">Menu</label></a></li>
-                    <li><a href="#!about_us">About us</a></li>
-                    <li><a href="#!contact_us">Contact us</a></li>
-                    <li><a href="#modalSignIn">Sign In</a></li>
-                    <li><a href="#modalSignUp">Sign Up</a></li>
-                </ul>
-            </div>
-        </nav>
-        <a href="" class="overlay" id="modalSignUp"></a>
-        <div class="popup">
-            <div class="signUpContainer">
-                <form class="signUp" method="post">
-                    <h3>Get Started Now</h3>
-                    <h4>And get additional features.</h4>
-                    <fieldset>
-                        <input placeholder="Your name" name="userName" type="text" tabindex="1" required autofocus>
-                    </fieldset>
-                    <fieldset>
-                        <input placeholder="Your Email Address" name="userPhone" type="email" tabindex="2" required>
-                    </fieldset>
-                    <fieldset>
-                        <input placeholder="Your Password" name="userPassword" type="password" tabindex="3" required>
-                    </fieldset>
-                    <fieldset>
-                        <button name="submit" type="submit" id="signUp" data-submit="...Sending">Submit</button>
-                    </fieldset>
-                    <a class="close" title="Закрыть" href="#close"></a>
-                </form>
-            </div>
-        </div>
-        <a href="" class="overlay" id="modalSignIn"></a>
-        <div class="popup">
-            <div class="signUpContainer">
-                <form action="" class="signUp" method="post">
-                    <h3>Welcome!</h3>
-                    <fieldset>
-                        <input placeholder="Your Email Address" name="userExistEmail" type="email" tabindex="1" required>
-                    </fieldset>
-                    <fieldset>
-                        <input placeholder="Your Password" name="userExistNumber" type="password" tabindex="2" required>
-                    </fieldset>
-                    <fieldset>
-                        <button name="submit" type="submit" id="signIn" data-submit="...Sending">Enter</button>
-                    </fieldset>
-                    <a class="close" title="Закрыть" href="#close"></a>
-                </form>
-            </div>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-home"><a href="">Home</a></i>
         </div>
 
-        <section class="slider">
-            <div class="sliderContainer">
-                <div class="slideItem">
-                    <img src="images/750-x-422.jpg" height="422" width="750">
-                    <div class="centered active"><h3>Find online anything you need.</h3></div>
-                </div>
-                <div class="slideItem">
-                    <img src="images/565f97abc2814449008b6f8e-750-422.jpg" height="422" width="750">
-                    <div class="centered">To share information with your friends</div>
-                </div>
-                <div class="slideItem">
-                    <img src="images/login-php-mysql.jpg" height="422" width="750">
-                    <div class="centered">Sigh up for additional opportunities</div>
-                </div>
-                <div class="slideItem">
-                    <img src="images/smartphone-user-750x422.jpg" height="422" width="750">
-                    <div class="centered">Being in the middle of the action</div>
-                </div>
-                <a class="prev">&#10094;</a>
-                <a class="next"">&#10095;</a>
-            </div>
-        </section>
-
-        <aside class="contentNavigation">
-            <div class="addContent">
-                <form id="contentFormCreator" enctype="multipart/form-data">
-                    <input type="name" id="contentName" placeholder="Name">
-                    <input type="text" id="contentDescription" placeholder="Description">
-                    <input type="text" id="contentTags" placeholder="Tags">
-                    <label for="contentFile" class="fileUpload">
-                         Add your file
-                    </label>
-                    <input id="contentFile" type="file"/>
-                    <input type="submit" value="Create new content">
-                </form>
-            </div>
-
-            <div class="searchOptions">
-                <div class="searchOptionsItem">
-                    <h3 id="videoSearch">Find Video<i class="down"></i></h3>
-                    <ul id="videoSearchOption">
-                        <li><input type="text" placeholder="Video name" id="videoName"></li>
-                        <li>
-                            <form>
-                                <input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" class="white" oninput="amount.value=rangeInput.value">
-                                <input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="videoRating" placeholder="Video rating">
-                            </form>
-                        </li>
-                        <li><input type="text" placeholder="Video tags" id="videoTags"></li>
-                        <button type="submit" id="findVideo">Find</button>
-                    </ul>
-                </div>
-                <div class="searchOptionsItem">
-                    <h3  id="pictureSearch">Find Picture<i class="down"></i></h3>
-                    <ul id="pictureSearchOption">
-                        <li><input type="text" placeholder="Video name" id="pictureName"></li>
-                        <li>
-                            <form>
-                                <input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" class="white" oninput="amount.value=rangeInput.value">
-                                <input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="pictureRating" placeholder="Picture rating">
-                            </form>
-                        </li>
-                        <li><input type="text" placeholder="Video tags" id="pictureTags"></li>
-                        <button type="submit" id="findPicture">Find</button>
-                    </ul>
-                </div>
-                <div class="searchOptionsItem">
-                    <h3 id="audioSearch">Find Audio<i class="down"></i></h3>
-                    <ul id="audioSearchOption">
-                        <li><input type="text" placeholder="Video name" id="audioName"></li>
-                        <li>
-                           <form>
-                               <input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" oninput="amount.value=rangeInput.value">
-                               <input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="audioRating" placeholder="Audio rating">
-                           </form>
-                        </li>
-                        <li><input type="text" placeholder="Video tags" id="audioTags"></li>
-                        <button type="submit" id="findAudio">Find</button>
-                    </ul>
-                </div>
-            </div>
-        </aside>
-
-        <main class="mainContent" id="mainContent">
-            <div id="content" class="content"></div>
-            <div id="searchResult" class="searchResult"></div>
-        </main>
-
-        <footer>
-            <div class="social">
-                <a href="#" class="tw"></a>
-                <a href="#" class="fb"></a>
-                <a href="#" class="google"></a>
-                <a href="#" class="pin"></a>
-            </div>
-        </footer>
+        <div class="information">
+            <ul>
+                <input type="checkbox" id="toggleMenu">
+                <li class="toggleMenu"><a><label for="toggleMenu">Menu</label></a></li>
+                <li><a href="#!about_us">About us</a></li>
+                <li><a href="#!contact_us">Contact us</a></li>
+                <li><a href="#modalSignIn">Sign In</a></li>
+                <li><a href="#modalSignUp">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+    <a href="" class="overlay" id="modalSignUp"></a>
+    <div class="popup">
+        <div class="signUpContainer">
+            <form class="signUp" method="post">
+                <h3>Get Started Now</h3>
+                <h4>And get additional features.</h4>
+                <fieldset>
+                    <input placeholder="Your name" name="userName" type="text" tabindex="1" required autofocus>
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Email Address" name="userPhone" type="email" tabindex="2" required>
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Password" name="userPassword" type="password" tabindex="3" required>
+                </fieldset>
+                <fieldset>
+                    <button name="submit" type="submit" id="signUp" data-submit="...Sending">Submit</button>
+                </fieldset>
+                <a class="close" title="Закрыть" href="#close"></a>
+            </form>
+        </div>
     </div>
+    <a href="" class="overlay" id="modalSignIn"></a>
+    <div class="popup">
+        <div class="signUpContainer">
+            <form action="" class="signUp" method="post">
+                <h3>Welcome!</h3>
+                <fieldset>
+                    <input placeholder="Your Email Address" name="userExistEmail" type="email" tabindex="1" required>
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Password" name="userExistNumber" type="password" tabindex="2" required>
+                </fieldset>
+                <fieldset>
+                    <button name="submit" type="submit" id="signIn" data-submit="...Sending">Enter</button>
+                </fieldset>
+                <a class="close" title="Закрыть" href="#close"></a>
+            </form>
+        </div>
+    </div>
+
+    <section class="slider">
+        <div class="sliderContainer">
+            <div class="slideItem">
+                <img src="images/slider_image/750-x-422.jpg" height="422" width="750">
+                <div class="centered active"><h3>Find online anything you need.</h3></div>
+            </div>
+            <div class="slideItem">
+                <img src="images/slider_image/565f97abc2814449008b6f8e-750-422.jpg" height="422" width="750">
+                <div class="centered">To share information with your friends</div>
+            </div>
+            <div class="slideItem">
+                <img src="images/slider_image/login-php-mysql.jpg" height="422" width="750">
+                <div class="centered">Sigh up for additional opportunities</div>
+            </div>
+            <div class="slideItem">
+                <img src="images/slider_image/smartphone-user-750x422.jpg" height="422" width="750">
+                <div class="centered">Being in the middle of the action</div>
+            </div>
+            <a class="prev">&#10094;</a>
+            <a class="next"">&#10095;</a>
+        </div>
+    </section>
+
+    <aside class="contentNavigation">
+        <div class="addContent">
+            <form id="contentCreatorForm" enctype="multipart/form-data">
+                <input type="name" id="contentName" placeholder="Name">
+                <input type="text" id="contentDescription" placeholder="Description">
+                <input type="text" id="contentTags" placeholder="Tags">
+                <label for="contentFile" class="fileUpload">
+                    Add your file
+                </label>
+                <input id="contentFile" type="file"/>
+                <input type="submit" value="Create new content" id="createContent">
+            </form>
+        </div>
+
+        <div class="searchOptions">
+            <h3 id="contentSearch">Find Content<i class="down"></i></h3>
+            <div id="contentSearchOption">
+                <form id="findContentForm">
+                    <input type="text" placeholder="Content name" id="contentSearchName">
+                    <input type="range" name="rangeInput" min="0" step="25" max="5000" value="2" class="white" oninput="amount.value=rangeInput.value">
+                    <input oninput="rangeInput.value=amount.value" type="text" name="amount" for="rangeInput" id="contentSearchRating" placeholder="Content rating">
+                    <input type="text" placeholder="Content tags" id="contentSearchTags">
+                    <input type="submit" value="Find" id="findContent">
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <main class="mainContent" id="mainContent">
+        <div id="content" class="content"></div>
+        <div id="searchResult" class="searchResult"></div>
+    </main>
+
+    <footer>
+        <div class="social">
+            <a href="#" class="tw"></a>
+            <a href="#" class="fb"></a>
+            <a href="#" class="google"></a>
+            <a href="#" class="pin"></a>
+        </div>
+    </footer>
+</div>
 </body>
 </html>
+
+
