@@ -24,7 +24,7 @@ window.onload = function () {
         }
     }
     function noSuchFiles() {
-        // clearContent();
+        document.querySelector(".back").style.visibility = "hidden";
         var noResult = document.createElement("h3");
         noResult.className = "noResult";
         noResult.innerHTML = "No such files. Back to content";
@@ -34,6 +34,17 @@ window.onload = function () {
         });
         document.getElementById("searchResult").insertBefore(noResult, null);
     }
+    function backToContent() {
+        document.querySelector(".back").style.visibility = "visible";
+        document.querySelector(".back").addEventListener("click", function(event) {
+            document.getElementById("content").style.display = "block";
+            document.querySelector(".back").style.visibility = "hidden";
+            event.target(clearSearchResult());
+
+        })
+
+    }
+
 
     function Content(name, description, rating, tags, url) {
         this.name = name;
@@ -50,9 +61,7 @@ window.onload = function () {
             throw new Error('');
         },
         voteUp: function() {
-            // this.rating++;
-
-            console.log("voteUp");
+            this.rating++;
         },
         voteDown: function() {
             this.rating--;
@@ -78,7 +87,7 @@ window.onload = function () {
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
-                   <p>Rating: <button class="voteUp")">Add</button>${this.rating}<button>Remove</button></p>
+                   <p>Rating: <i class="far fa-thumbs-up"></i>${this.rating}<i class="far fa-thumbs-down"></i></p>
                    <p>Tags: ${this.tags}</p>
                </div>
         `;
@@ -100,7 +109,7 @@ window.onload = function () {
              <div class="props">
                  <h1>Name: ${this.name}</h1>
                  <h3>Description ${this.description}</h3>
-                 <p>Rating: <button class="voteUp">Add</button>${this.rating}<button>Remove</button></p>
+                 <p>Rating: <i class="far fa-thumbs-up"></i>${this.rating}<i class="far fa-thumbs-down"></i></p>
                  <p>Tags: ${this.tags}</p>
              </div>
            `;
@@ -126,7 +135,7 @@ window.onload = function () {
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
-                   <p>Rating: <button class="voteUp">Add</button>${this.rating}<button>Remove</button></p>
+                   <p>Rating: <i class="far fa-thumbs-up"></i>${this.rating}<i class="far fa-thumbs-down"></i></p>
                    <p>Tags: ${this.tags}</p>
                </div>
             `;
@@ -191,6 +200,7 @@ window.onload = function () {
                 arr.forEach(function (item) {
                     outPut.insertBefore(item.show(), null);
                 });
+                backToContent();
                 return document.getElementById("searchResult").insertBefore(outPut, null);
             }
         }

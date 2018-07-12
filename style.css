@@ -395,6 +395,16 @@ fieldset {
 
 }
 
+.contentNavigation .back {
+    visibility: hidden;
+    font-family: 'Josefin Sans', sans-serif;
+    cursor: pointer;
+}
+
+[class*="arrow-left"] {
+    padding: 0 0.4em;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -485,6 +495,11 @@ input[type="file"] {
     font-family: 'Josefin Sans', sans-serif;
 }
 
+.contentItem i {
+    margin: 0 0.4em;
+    cursor: pointer;
+}
+
 .contentItem .props h1 {
     font-size: 2em;
     margin: 5px 0;
@@ -509,7 +524,6 @@ input[type="file"] {
     text-decoration: underline;
     cursor: pointer;
 }
-
 /* footer layout */
 
 footer {
