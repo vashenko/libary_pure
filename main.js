@@ -233,7 +233,7 @@ window.onload = function () {
 
 
     document.getElementById("findContent").addEventListener("click", function(event) {
-        event.preventDefaultt();
+        event.preventDefault();
         clearSearchResult();
         var contentSearchName = document.getElementById("contentSearchName").value;
         var contentSearchRating = document.getElementById("contentSearchRating").value;
