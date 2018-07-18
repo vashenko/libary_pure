@@ -2,31 +2,31 @@ var images = document.querySelectorAll('.slider .sliderContainer img');
 var centeredElements = document.getElementsByClassName('centered');
 var buttonPrev = document.querySelector('.slider .prev');
 var buttonNext = document.querySelector('.slider .next');
-var i = 0;
+var imageIndex = 0;
 buttonPrev.onclick = function () {
-    images[i].style.display = 'none';
-    centeredElements[i].style.display = 'none';
-    i--;
+    images[imageIndex].style.display = 'none';
+    centeredElements[imageIndex].style.display = 'none';
+    imageIndex--;
 
-    if (i < 0) {
-        i = images.length - 1;
+    if (imageIndex < 0) {
+        imageIndex = images.length - 1;
     }
 
-    images[i].style.display = 'block';
-    centeredElements[i].style.display = 'block';
+    images[imageIndex].style.display = 'block';
+    centeredElements[imageIndex].style.display = 'block';
 }
 
 buttonNext.onclick = function () {
-    images[i].style.display = 'none';
-    centeredElements[i].style.display = 'none';
-    i++;
+    images[imageIndex].style.display = 'none';
+    centeredElements[imageIndex].style.display = 'none';
+    imageIndex++;
 
-    if (i >= images.length) {
-        i = 0;
+    if (imageIndex >= images.length) {
+        imageIndex = 0;
     }
 
-    images[i].style.display = 'block';
-    centeredElements[i].style.display = 'block';
+    images[imageIndex].style.display = 'block';
+    centeredElements[imageIndex].style.display = 'block';
 };
 
 // toggle animation
