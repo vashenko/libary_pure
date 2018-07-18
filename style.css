@@ -106,22 +106,12 @@ nav {
     cursor: pointer;
 }
 
-nav .information {
-    align-self: flex-end;
-}
-
 nav .information ul li {
     display: inline;
     padding: 0 1em;
     font-size: 1.25em;
     cursor: pointer;
-    taransition: color 0.5s;
     font-family: 'Josefin Sans', sans-serif;
-}
-
-nav .information ul li a {
-    text-decoration: none;
-    color: black;
 }
 
 nav input,
@@ -157,7 +147,6 @@ nav .information .toggleMenu {
     opacity: 1;
 }
 
-/* стили модального окна */
 .popup {
     top: 0;
     left: 50%;
@@ -168,25 +157,15 @@ nav .information .toggleMenu {
     width: 100%;
     height: auto;
     position: fixed;
-    /* трансформация */
-    -webkit-transform: translate(-50%, -150%);
-    -ms-transform: translate(-50%, -150%);
-    -o-transform: translate(-50%, -150%);
+    /*transformation*/
     transform: translate(-50%, -150%);
-    /* анимируем трансформацию */
-    -webkit-transition: transform 0.6s ease-out;
-    -moz-transition: transform 0.6s ease-out;
-    -ms-transition: transform 0.6s ease-out;
-    -o-transition: transform 0.6s ease-out;
+    /* transformation anim*/
     transition: transform 0.6s ease-out;
     box-sizing: border-box;
 }
 /* активируем мод. окно */
 .overlay:target+.popup {
     top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 .close {
@@ -197,27 +176,15 @@ nav .information .toggleMenu {
     width: 22px;
     height: 22px;
     border: 2px solid #ccc;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
     border-radius: 50%;
     background-color: rgba(61, 61, 61, 0.8);
-    -webkit-box-shadow: 0px 0px 10px #000;
-    -moz-box-shadow: 0px 0px 10px #000;
-    box-shadow: 0px 0px 10px #000;
     text-align: center;
     line-height: 20px;
-    -webkit-transition: background-color ease .7s;
-    -moz-transition:  background-color ease .7s;
-    -ms-transition:  background-color ease .7s;
-    -o-transition:  background-color ease .7s;
     transition: background-color ease .7s;
 }
 .close:before {
     color: rgba(255, 255, 255, 0.9);
     content: '\2715';
-    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
     font-size: 12px;
 
 }
@@ -244,37 +211,28 @@ nav .information .toggleMenu {
 .signUp input[type="email"],
 .signUp input[type="password"],
 .signUp button[type="submit"] {
-    font: 400 12px/16px "Roboto", Helvetica, Arial, sans-serif;
+    font: 400 0.8em "Roboto", Helvetica, Arial, sans-serif;
 }
 
 .signUp {
     background: #F9F9F9;
     padding: 25px;
     margin: 150px 0;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .signUp h3 {
     display: block;
     font-size: 30px;
-    font-weight: 300;
-    margin-bottom: 10px;
+    margin-bottom: 0.7em;
     color: rgb(51, 51, 51);
 }
 
 .signUp h4 {
-    margin: 5px 0 15px;
+    margin-bottom: 0.75em;
     display: block;
-    font-size: 13px;
+    font-size: 1em;
     font-weight: 400;
     color: rgb(51, 51, 51);
-}
-
-fieldset {
-    margin: 0 0 10px;
-    min-width: 100%;
-    padding: 0;
-    width: 100%;
 }
 
 .signUp input[type="text"],
@@ -283,8 +241,8 @@ fieldset {
     width: 95%;
     border: 1px solid #ccc;
     background: #FFF;
-    margin: 0 0 5px;
-    padding: 10px;
+    margin: 0 0 0.425em;
+    padding: 0.9em;
 }
 
 
@@ -294,9 +252,9 @@ fieldset {
     border: none;
     background: rgb(255, 214, 77);
     color: rgb(41, 41, 41);
-    margin: 0 0 5px;
-    padding: 10px;
-    font-size: 15px;
+    margin: 0 0 0.425em;
+    padding: 0.9em;
+    font-size: 1em;
     border-radius: 0.3em;
 }
 
@@ -326,17 +284,15 @@ fieldset {
     position: absolute;
     top: 50%;
     width: auto;
-    margin-top: -22px;
     padding: 16px;
     color: white;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.115em;
     transition: 0.6s ease;
 }
 
 .next {
     right: 0;
-    border-radius: 3px 0 0 3px;
 }
 
 .slider .sliderContainer .slideItem .centered:not(.active)  {
@@ -347,7 +303,7 @@ fieldset {
     position: absolute;
     top: 90%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 }
 
 .slider .sliderContainer .slideItem .centered  {
@@ -373,10 +329,10 @@ fieldset {
     box-sizing: border-box;
     display: block;
     width: 100%;
-    padding: 7px;
+    padding: 0.425em;
     border: none;
     border-bottom: 1px solid #ddd;
-    height: 45px;
+    height: 2.65em;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 1.20em;
 }
@@ -387,7 +343,7 @@ fieldset {
     cursor: pointer;
     color: #FFFFFF;
     font-size: 1em;
-    padding: 8px 18px;
+    padding: 0.5em 1.2em;
     text-transform: uppercase;
     margin-top: 10px;
     border-radius: 0.3em;
@@ -685,6 +641,7 @@ nav ul li a:hover {
         max-height: 600px;
     }
 
+
     .searchOptions > div {
         margin: 0 0.5em;
         font-size: 0.8em;
@@ -760,11 +717,8 @@ nav ul li a:hover {
     }
 
     .searchOptions h3 {
-        font-size: 1em;
-    }
-
-    .contentNavigation {
-        text-align: center;
+        font-size: 1.25em;
+        margin: 0.5em 0;
     }
 
     .contentNavigation input[type="name"],

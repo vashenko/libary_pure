@@ -42,9 +42,7 @@ window.onload = function () {
             event.target(clearSearchResult());
 
         })
-
     }
-
 
     function Content(name, description, rating, tags, url) {
         this.name = name;
@@ -87,7 +85,7 @@ window.onload = function () {
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
-                   <p>Rating: <i class="far fa-thumbs-up"></i>${this.rating}<i class="far fa-thumbs-down"></i></p>
+                   <p>Rating: <i class="far fa-thumbs-up btn_up"></i>${this.rating}<i class="far fa-thumbs-down btn_down"></i></p>
                    <p>Tags: ${this.tags}</p>
                </div>
         `;
@@ -109,7 +107,7 @@ window.onload = function () {
              <div class="props">
                  <h1>Name: ${this.name}</h1>
                  <h3>Description ${this.description}</h3>
-                 <p>Rating: <i class="far fa-thumbs-up"></i>${this.rating}<i class="far fa-thumbs-down"></i></p>
+                 <p>Rating: <i class="far fa-thumbs-up btn_up"></i>${this.rating}<i class="far fa-thumbs-down btn_down"></i></p>
                  <p>Tags: ${this.tags}</p>
              </div>
            `;
@@ -135,10 +133,11 @@ window.onload = function () {
                <div class="props">
                    <h1>Name: ${this.name}</h1>
                    <h3>Description: ${this.description}</h3>
-                   <p>Rating: <i class="far fa-thumbs-up"></i>${this.rating}<i class="far fa-thumbs-down"></i></p>
+                   <p>Rating: <i class="far fa-thumbs-up btn_up"></i>${this.rating}<i class="far fa-thumbs-down btn_down"></i></p>
                    <p>Tags: ${this.tags}</p>
                </div>
             `;
+
         return embedVideo;
     };
 
@@ -234,7 +233,7 @@ window.onload = function () {
 
 
     document.getElementById("findContent").addEventListener("click", function(event) {
-        event.preventDefault();
+        event.preventDefaultt();
         clearSearchResult();
         var contentSearchName = document.getElementById("contentSearchName").value;
         var contentSearchRating = document.getElementById("contentSearchRating").value;
@@ -259,6 +258,6 @@ window.onload = function () {
         }
 
         document.getElementById("findContentForm").reset();
-    })
+    });
 };
 
